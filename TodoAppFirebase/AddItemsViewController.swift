@@ -36,16 +36,7 @@ class AddItemsViewController: UIViewController {
     
         ref = Database.database().reference()
         let itemReference = ref?.child("items")
-
-        if textViewText.text != "" {
     
-            itemReference?.setValue(["item": textViewText.text!])
-            
-        }else {
-            
-            print("Need to Put Character")
-            
-        }
-        
+        itemReference?.setValue(["item": textViewText.text!])
     }
 }

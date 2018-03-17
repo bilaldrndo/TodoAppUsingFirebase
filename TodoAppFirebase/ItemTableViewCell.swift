@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class ItemTableViewCell: UITableViewCell {
-
+class ItemTableViewCell: UITableViewCell{
     
+
     @IBOutlet weak var titleText: UILabel!
     
     
