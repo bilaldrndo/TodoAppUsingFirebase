@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import SVProgressHUD
 
 class AddItemsViewController: UIViewController {
     
@@ -33,10 +34,22 @@ class AddItemsViewController: UIViewController {
     @IBAction func addButtonPressed(_ sender: Any) {
         
         dismiss(animated: true, completion: nil)
-    
-        ref = Database.database().reference()
-        let itemReference = ref?.child("items")
-    
-        itemReference?.setValue(["item": textViewText.text!])
+        
+        let titlesDB = Database.database().reference().child("items")
+        
+        let titleDictionary = ["title": textViewText.text!]
+        
+        titlesDB.childByAutoId().setValue(titleDictionary) {
+            (error, reference) in
+            if error != nil{
+                print(error!)
+            }else {
+                print("Msg Saved")
+
+            }
+        }
     }
+    
+
+    
 }

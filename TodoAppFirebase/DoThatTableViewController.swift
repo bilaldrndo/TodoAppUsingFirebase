@@ -14,32 +14,45 @@ class DoThatTableViewController: UITableViewController {
     
     var titl = [Titles]()
     
-    static let ref = Database.database().reference()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        SVProgressHUD.show()
-        
         loadItems()
         
+        SVProgressHUD.show()
+        
+        tableView.separatorStyle = .none
+    }
+    
+    func configureTableView() {
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 75
     }
 
     func loadItems() {
         
-        Database.database().reference().child("items").observe(.value) { (snapshot) in
+        let titlesDB = Database.database().reference().child("items")
+        
+        titlesDB.observe(.childAdded) { (snapshot) in
             
-            if let dict = snapshot.value as? [String: Any]{
-                
-                let tltText = dict["item"] as! String
-                let tlt = Titles(titlesTxt: tltText)
-                self.titl.append(tlt)
-                
+            let snapshotValue = snapshot.value as! Dictionary<String,String>
+            
+            let text = snapshotValue["title"]!
+            
+            let title = Titles()
+            title.titles = text
+            
+            self.titl.append(title)
+            
+            DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
             
-//            SVProgressHUD.dismiss()
+            self.configureTableView()
+            
+            SVProgressHUD.dismiss()
         }
+        
         
     }
 
@@ -61,6 +74,13 @@ class DoThatTableViewController: UITableViewController {
         cell.titleText.text = titl[indexPath.row].titles
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        titl.remove(at: indexPath.row)
+        self.tableView.reloadData()
+    
     }
         
 }

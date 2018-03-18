@@ -11,8 +11,6 @@ import SwipeCellKit
 
 class ItemTableViewCell: UITableViewCell{
     
-
     @IBOutlet weak var titleText: UILabel!
-    
     
 }

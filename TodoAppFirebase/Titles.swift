@@ -9,10 +9,6 @@
 import Foundation
 
 class Titles {
-    var titles : String
-    
-    init(titlesTxt: String) {
-        titles = titlesTxt
-    }
+    var titles : String = ""
 }
 
